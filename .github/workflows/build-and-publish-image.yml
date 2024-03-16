@@ -23,9 +23,9 @@ jobs:
         uses: goforboom/aws-container-registry-action@v1
         with:
           # AWS Access key ID with required access to ECR
-          awsAccessKeyId: ${{ env.AWS_ACCESS_KEY_ID }}
+          awsAccessKeyId: $AWS_ACCESS_KEY_ID
           # AWS Secret Access key with required access to ECR
-          awsSecretAccessKey: ${{ secrets.AWS_SECRET_KEY }}
+          awsSecretAccessKey: $AWS_SECRET_KEY
           # AWS region where is ECR placed
           awsRegion: eu-west-1
       - name: Publish image
