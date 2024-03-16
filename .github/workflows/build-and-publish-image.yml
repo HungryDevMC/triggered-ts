@@ -31,7 +31,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v3
         with:
           # AWS Access key ID with required access to ECR
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           # AWS Secret Access key with required access to ECR
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           # AWS region where is ECR placed
@@ -44,7 +44,7 @@ jobs:
       - name: Publish image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPO_NAME }}
           IMAGE_VERSION: ${{ steps.get-commit-hash.outputs.commit-hash }}
         run: |
           docker build . --file ./teamspeak/Dockerfile --tag triggered-ts:$IMAGE_VERSION
