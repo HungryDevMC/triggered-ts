@@ -13,24 +13,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Build the Docker image
-        run: docker build ./teamspeak/ --file ./teamspeak/Dockerfile --tag triggered-ts:$(date +%s)
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get commit hash
+        id: get-commit-hash
+        run: echo "::set-output name=commit-hash::$(git rev-parse --short HEAD)"
+
       # You may pin to the exact commit or the version.
       # uses: boomeventsorg/aws-container-registry-action@b87a2b7a075e9f3ab0fe17e95f576c2e03f7e50c
       - name: Configure AWS ECR
         id: aws-registry
-        uses: goforboom/aws-container-registry-action@v1
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           # AWS Access key ID with required access to ECR
-          awsAccessKeyId: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           # AWS Secret Access key with required access to ECR
-          awsSecretAccessKey: ${{ secrets.AWS_SECRET_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           # AWS region where is ECR placed
-          awsRegion: eu-west-1
+          aws-region: eu-west-1
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v1
+        id: login-ecr
+
       - name: Publish image
         env:
-          REGISTRY: ${{ steps.aws-registry.outputs.awsRegistry }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPO_NAME }}
+          IMAGE_VERSION: ${{ steps.get-commit-hash.outputs.commit-hash }}
         run: |
-          docker tag triggered-ts:latest $REGISTRYtriggered-ts:1
-          docker push $REGISTRY/triggered-ts:1
+          docker build . --file ./teamspeak/Dockerfile --tag triggered-ts:$IMAGE_VERSION
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
