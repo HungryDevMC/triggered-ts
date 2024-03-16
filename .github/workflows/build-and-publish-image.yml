@@ -28,7 +28,7 @@ jobs:
       # uses: boomeventsorg/aws-container-registry-action@b87a2b7a075e9f3ab0fe17e95f576c2e03f7e50c
       - name: Configure AWS ECR
         id: aws-registry
-        uses: actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           # AWS Access key ID with required access to ECR
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
