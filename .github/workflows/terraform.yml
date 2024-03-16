@@ -7,8 +7,8 @@
 #
 # To use this workflow, you will need to complete the following setup steps.
 #
-# 1. Create a `main.tf` file in the root of this repository with the `remote` backend and one or more resources defined.
-#   Example `main.tf`:
+# 1. Create a `ecr.tf` file in the root of this repository with the `remote` backend and one or more resources defined.
+#   Example `ecr.tf`:
 #     # The configuration for the `remote` backend.
 #     terraform {
 #       backend "remote" {
@@ -71,6 +71,8 @@ jobs:
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
+#      with:
+#        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
