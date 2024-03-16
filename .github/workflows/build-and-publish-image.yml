@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build ./teamspeak/ --file Dockerfile --tag triggered-ts:$(date +%s)
+        run: docker build ./teamspeak/ --file ./teamspeak/Dockerfile --tag triggered-ts:$(date +%s)
       # You may pin to the exact commit or the version.
       # uses: boomeventsorg/aws-container-registry-action@b87a2b7a075e9f3ab0fe17e95f576c2e03f7e50c
       - uses: boomeventsorg/aws-container-registry-action@v1
