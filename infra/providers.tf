@@ -7,12 +7,12 @@ terraform {
   }
 
   backend "s3" {
-    bucket = local.state_bucket
-    key    = local.state_key
-    region = local.region
+    bucket = "triggered-infrastructure-state"
+    key    = "provisioning-state"
+    region = "eu-west-1"
   }
 }
 
 provider "aws" {
-  region = local.region
+  region = "eu-west-1"
 }
