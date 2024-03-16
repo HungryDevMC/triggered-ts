@@ -13,24 +13,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build ./teamspeak/ --file Dockerfile --tag triggered-ts:$(date +%s)
-    - name: AWS ECR auth and configuration
-    # You may pin to the exact commit or the version.
-    # uses: boomeventsorg/aws-container-registry-action@b87a2b7a075e9f3ab0fe17e95f576c2e03f7e50c
-    - uses: boomeventsorg/aws-container-registry-action@v1
-      id: aws-registry
-      with:
-        # AWS Access key ID with required access to ECR
-        awsAccessKeyId: $AWS_ACCESS_KEY_ID
-        # AWS Secret Access key with required access to ECR
-        awsSecretAccessKey: $AWS_SECRET_KEY
-        # AWS region where is ECR placed
-        awsRegion: eu-west-1 
-    - name: Publish image
-      env:
-        REGISTRY: ${{ steps.aws-registry.outputs.awsRegistry }}
-      run: |
-        docker tag triggered-ts:latest $REGISTRYtriggered-ts:1
-        docker push $REGISTRY/triggered-ts:1
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build ./teamspeak/ --file Dockerfile --tag triggered-ts:$(date +%s)
+      # You may pin to the exact commit or the version.
+      # uses: boomeventsorg/aws-container-registry-action@b87a2b7a075e9f3ab0fe17e95f576c2e03f7e50c
+      - name: AWS ECR auth and configuration
+      - uses: boomeventsorg/aws-container-registry-action@v1
+        id: aws-registry
+        with:
+          # AWS Access key ID with required access to ECR
+          awsAccessKeyId: $AWS_ACCESS_KEY_ID
+          # AWS Secret Access key with required access to ECR
+          awsSecretAccessKey: $AWS_SECRET_KEY
+          # AWS region where is ECR placed
+          awsRegion: eu-west-1
+      - name: Publish image
+        env:
+          REGISTRY: ${{ steps.aws-registry.outputs.awsRegistry }}
+        run: |
+          docker tag triggered-ts:latest $REGISTRYtriggered-ts:1
+          docker push $REGISTRY/triggered-ts:1
