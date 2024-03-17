@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "services" {
-  name = "services"
+  name = "teamspeak"
 
   image_scanning_configuration {
     scan_on_push = false
