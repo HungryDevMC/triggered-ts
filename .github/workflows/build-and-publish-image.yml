@@ -49,5 +49,7 @@ jobs:
         run: |
           docker build -t teamspeak:$IMAGE_VERSION --file ./teamspeak/Dockerfile .
           docker tag teamspeak:$IMAGE_VERSION 905418283206.dkr.ecr.eu-west-1.amazonaws.com/teamspeak:$IMAGE_VERSION
+          docker tag teamspeak:$IMAGE_VERSION 905418283206.dkr.ecr.eu-west-1.amazonaws.com/teamspeak:latest
           docker push 905418283206.dkr.ecr.eu-west-1.amazonaws.com/teamspeak:$IMAGE_VERSION
+          docker push 905418283206.dkr.ecr.eu-west-1.amazonaws.com/teamspeak:latest
 
